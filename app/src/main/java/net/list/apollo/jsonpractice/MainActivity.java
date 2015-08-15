@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,8 +64,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 //        recipe_id_list = new String[]{"591946", "196149", "201809", "586891", "192433", "561511"};
-        recipe_id_list = new String[]{"bacon_asparagus_quiche", "bourbon_chicken", "brownies" , "chicken_bacon_alfredo", "chicken_noodle_soup", "chocolate_chip_cookies", "flank_steak", "lasagna", "oreo_truffles", "reuben_sandwich"};
-//        recipe_id_list = new String[]{ "brownies" ,  "lasagna", "oreo_truffles"};
+        recipe_id_list = new String[]{"bacon_asparagus_quiche", "banana_milkshake", "beef_chili", "bourbon_chicken", "brownies", "chicken_bacon_alfredo", "chicken_cordon_bleu", "chicken_marsala", "chicken_noodle_soup", "chocolate_chip_cookies", "cornbread", "flank_steak", "horchata", "lasagna", "lemon_salmon", "oreo_truffles", "reuben_sandwich", "sushi", "sweet_tea"};
         curIndex = -1;
         super.onCreate(savedInstanceState);
         renderMainView();
@@ -73,6 +73,31 @@ public class MainActivity extends ActionBarActivity {
 
 
     }
+
+    public static String strJoin(String[] aArr, String sSep) {
+        StringBuilder sbStr = new StringBuilder();
+        for (int i = 0, il = aArr.length; i < il; i++) {
+            if (i > 0)
+                sbStr.append(sSep);
+            sbStr.append(aArr[i]);
+        }
+        return sbStr.toString();
+    }
+
+    public static String capitalizeString(String string) {
+        char[] chars = string.toLowerCase().toCharArray();
+        boolean found = false;
+        for (int i = 0; i < chars.length; i++) {
+            if (!found && Character.isLetter(chars[i])) {
+                chars[i] = Character.toUpperCase(chars[i]);
+                found = true;
+            } else if (Character.isWhitespace(chars[i]) || chars[i]=='.' || chars[i]=='\'') { // You can add other chars here
+                found = false;
+            }
+        }
+        return String.valueOf(chars);
+    }
+
     private void renderMainView(){
         Random rn = new Random();
         int range = recipe_id_list.length;
@@ -80,8 +105,19 @@ public class MainActivity extends ActionBarActivity {
         while(index == curIndex){
             index = rn.nextInt(range);
         }
+
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+
+
+
+
         curIndex = index;
         String recipe_id = recipe_id_list[index];
+        String[] cur_recipe_arr = (String[]) recipe_id.split("_");
+        String cur_recipe = capitalizeString(strJoin(cur_recipe_arr, " "));
+        Toast toast = Toast.makeText(context, cur_recipe, duration);
+        toast.show();
         setContentView(R.layout.activity_main);
         mTextView = (TextView) findViewById(R.id.mTextView);
         DownloadWebPageTask task = new DownloadWebPageTask();
