@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Swipe4Recipes.iml" filepath="$PROJECT_DIR$/Swipe4Recipes.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swipeforfood.iml" filepath="$PROJECT_DIR$/swipeforfood.iml" />
     </modules>
   </component>
 </project>
