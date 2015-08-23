@@ -10,10 +10,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -63,19 +61,11 @@ public class MainActivity extends ActionBarActivity {
     String[] recipe_id_list;
     int curIndex;
     String imageUrl;
-    private static final int SWIPE_MIN_DISTANCE = 120;
-    private static final int SWIPE_MAX_OFF_PATH = 250;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-    private GestureDetector gestureDetector;
-    View.OnTouchListener gestureListener;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 //        recipe_id_list = new String[]{"591946", "196149", "201809", "586891", "192433", "561511"};
         recipe_id_list = new String[]{"bacon_asparagus_quiche", "banana_milkshake", "beef_chili", "bourbon_chicken", "brownies", "chicken_bacon_alfredo", "chicken_cordon_bleu", "chicken_marsala", "chicken_noodle_soup", "chocolate_chip_cookies", "cornbread", "flank_steak", "horchata", "lasagna", "lemon_salmon", "oreo_truffles", "reuben_sandwich", "sushi", "sweet_tea"};
         curIndex = -1;
-
-
         super.onCreate(savedInstanceState);
         renderMainView();
 
@@ -224,9 +214,8 @@ public class MainActivity extends ActionBarActivity {
 //                    toast.show();
 
                     mTextView.setText(imageUrl);
-//                    ((RelativeLayout) findViewById(R.id.bgLayout)).setOnTouchListener(gestureListener);
+
                     DownloadImageTask dit = new DownloadImageTask((RelativeLayout) findViewById(R.id.bgLayout));
-                            ((RelativeLayout) findViewById(R.id.bgLayout)).setOnTouchListener(gestureListener);
                             dit.execute(imageUrl);
                             Button button= (Button) findViewById(R.id.button);
                             button.setOnClickListener(new View.OnClickListener() {
@@ -301,27 +290,4 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            try {
-                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
-                    return false;
-                // right to left swipe
-                if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    Toast.makeText(MainActivity.this, "Left Swipe", Toast.LENGTH_SHORT).show();
-                }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                    Toast.makeText(MainActivity.this, "Right Swipe", Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                // nothing
-            }
-            return false;
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
-    }
 }
